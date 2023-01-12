@@ -1,10 +1,11 @@
-import { Item, Text, DeleteBtn } from './ContactItem.styled';
-
-import { ImCross } from 'react-icons/im';
+import { useDispatch } from 'react-redux';
 
 import { deleteContact } from 'redux/operations';
 
-import { useDispatch } from 'react-redux';
+import { ImCross } from 'react-icons/im';
+import PropTypes from 'prop-types';
+
+import { Item, Text, DeleteBtn } from './ContactItem.styled';
 
 const ContactItem = ({ contact }) => {
   const { id, name, phone } = contact;
@@ -30,6 +31,14 @@ const ContactItem = ({ contact }) => {
       </DeleteBtn>
     </Item>
   );
+};
+
+ContactItem.propTypes = {
+  contact: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+  }),
 };
 
 export default ContactItem;

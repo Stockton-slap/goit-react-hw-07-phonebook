@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 export const Item = styled.li`
   display: flex;
+
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
 `;
 
 export const Text = styled.p`
@@ -16,4 +20,5 @@ export const DeleteBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 15px;
 `;

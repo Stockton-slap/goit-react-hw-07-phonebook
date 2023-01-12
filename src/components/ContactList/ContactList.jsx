@@ -1,11 +1,9 @@
-import { List } from './ContactList.styled';
-
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
 import { selectContacts, selectFilter } from 'redux/selectors';
 
-import { useMemo } from 'react';
-
+import { List } from './ContactList.styled';
 import ContactItem from 'components/ContactItem';
 
 const ContactList = () => {
@@ -23,8 +21,6 @@ const ContactList = () => {
       }),
     [contacts, filter]
   );
-
-  console.log(filteredContacts);
 
   return (
     <List>
