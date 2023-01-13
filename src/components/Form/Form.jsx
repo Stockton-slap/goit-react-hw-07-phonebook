@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
 
 import { Form, ContactLabel, ContactValue, AddBtn } from './Form.styled';
 
@@ -10,6 +12,8 @@ const ContactForm = () => {
   const [number, setNumber] = useState('');
 
   const dispatch = useDispatch();
+
+  const contacts = useSelector(selectContacts);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -29,7 +33,13 @@ const ContactForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    dispatch(addContact(name, number));
+    const sameName = contacts.find(contact => contact.name === name);
+
+    if (sameName) {
+      alert('There is already a contact with such a name.');
+    } else {
+      dispatch(addContact({ name, number }));
+    }
 
     setName('');
     setNumber('');
