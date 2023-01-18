@@ -7,9 +7,16 @@ import { selectContacts } from 'redux/selectors';
 
 import { Form, ContactLabel, ContactValue, AddBtn } from './Form.styled';
 
+import { selectEditContact } from 'redux/selectors';
+
+import { editContact } from 'redux/operations';
+
+import { useEffect } from 'react';
+
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const [text, setText] = useState('Add contact');
 
   const dispatch = useDispatch();
 
@@ -30,20 +37,36 @@ const ContactForm = () => {
     }
   };
 
+  const editContactData = useSelector(selectEditContact);
+  const { name: editName, phone: editPhone } = editContactData;
+
   const handleSubmit = e => {
     e.preventDefault();
 
     const sameName = contacts.find(contact => contact.name === name);
 
     if (sameName) {
-      alert('There is already a contact with such a name.');
+      return alert('There is already a contact with such a name.');
+    }
+
+    if (editContactData.name) {
+      dispatch(editContact({ name, number, id: editContactData.id }));
     } else {
       dispatch(addContact({ name, number }));
     }
 
     setName('');
     setNumber('');
+    setText('Add contact');
   };
+
+  useEffect(() => {
+    if (editName) {
+      setName(editName);
+      setNumber(editPhone);
+      setText('Save contact');
+    }
+  }, [editName, editPhone]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -73,7 +96,7 @@ const ContactForm = () => {
           onChange={handleChange}
         />
       </ContactLabel>
-      <AddBtn type="submit">Add contact</AddBtn>
+      <AddBtn type="submit">{text}</AddBtn>
     </Form>
   );
 };

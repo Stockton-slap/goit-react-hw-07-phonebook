@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 
 import { Item, Text, DeleteBtn } from './ContactItem.styled';
 
+import { modifyContact } from 'redux/editContactSlice';
+
 const ContactItem = ({ contact }) => {
   const { id, name, phone } = contact;
 
@@ -14,11 +16,16 @@ const ContactItem = ({ contact }) => {
 
   const handleClick = () => dispatch(deleteContact(id));
 
+  const handleEditBtn = () => dispatch(modifyContact(contact));
+
   return (
     <Item>
       <Text>
         {name}: {phone}
       </Text>
+      <button type="button" onClick={handleEditBtn}>
+        Edit
+      </button>
       <DeleteBtn type="button" onClick={handleClick}>
         Delete
         <ImCross
